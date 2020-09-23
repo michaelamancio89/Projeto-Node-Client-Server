@@ -80,15 +80,7 @@ class User {
 
     static getUsersStorage() {
 
-        let users = [];
-
-        if (localStorage.getItem("users")) {
-
-            users = JSON.parse(localStorage.getItem("users"));
-
-        }
-
-        return users;
+        return HttpRequest.get('/users');
 
     }
 
@@ -142,6 +134,7 @@ class User {
                 this.loadFromJSON(data);
 
                 resolve(this);
+
             }).catch(e=>{
 
                 reject(this);
@@ -153,19 +146,7 @@ class User {
 
     remove(){
 
-        let users = User.getUsersStorage();
-
-        users.forEach((userData, index)=>{
-
-            if (this._id == userData._id) {
-
-                users.splice(index, 1);
-
-            }
-
-        });
-
-        localStorage.setItem("users", JSON.stringify(users));
+        return HttpRequest.delete(`/users/${this.id}`);
 
     }
 
